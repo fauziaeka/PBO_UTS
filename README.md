@@ -373,7 +373,7 @@ private void bersih() {
 
 8. Hasil eksekusi Insert data
 
-![image](https://github.com/user-attachments/assets/d93c23d6-a89d-46a1-b1c4-2cc92ac20c7f)
+![image](https://github.com/user-attachments/assets/eae6047e-cde9-4dc9-811f-aa841c8c8f56)
 
 9. Hasil eksekusi Update data
 
