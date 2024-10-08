@@ -71,7 +71,7 @@ public class MataKuliahDB {
 
 5. Membuat Table pada postgreSQL 
 
-   ![GetImage (4)](https://github.com/user-attachments/assets/9b5dc71c-8a04-4a8f-a5c0-01a16d6025da)
+  ![Gambar WhatsApp 2024-10-08 pukul 12 49 53_1b37588d](https://github.com/user-attachments/assets/a47bbb55-f81d-4a80-9e4b-8043ab9070f2)
  
 6. Menyambungkan Netbeans dengan Database 
 
