@@ -377,7 +377,7 @@ private void bersih() {
 
 9. Hasil eksekusi Update data
 
-![GetImage (14)](https://github.com/user-attachments/assets/4b6a7afe-b076-4f37-b318-61fff5dfb571)
+![image](https://github.com/user-attachments/assets/7d36d315-5406-4ba2-9467-39e03cd4e591)
 
 10. Hasil eksekusi Delete data
 
