@@ -4,7 +4,7 @@ Langkah-langkah membuat CRUD dengan Java Swing untuk entitas entitas MataKuliah 
 
 ## 📑 Daftar Isi 
 
-- [Java Swing Mata Kuliah](https://github.com/fauziaeka/PBO_SimulasiUTS/blob/main/FrameBuku.java)
+- [Java Swing Mata Kuliah](https://github.com/fauziaeka/PBO_UTS/blob/main/FrameMataKuliah.java)
 - [MataKuliah DB](https://github.com/fauziaeka/PBO_SimulasiUTS/blob/main/BukuDB.java) 
 - kesimpulan 
 
@@ -24,7 +24,7 @@ Langkah-langkah membuat CRUD dengan Java Swing untuk entitas entitas MataKuliah 
 4. Mengisi class MataKuliahDB. Class ini berfungsi untuk mengonversi ResultSet pada database menjadi TableModel agar dapat ditampilkan pada JTable di GUI Java Swing sehingga saat pengisian data kita tidak perlu menulis kodenya secara manual.
 
 ```
-package pbo_simulasiuts;
+package pbo_uts;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -32,9 +32,9 @@ import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-public class BukuDB {
+public class MataKuliahDB {
 
-   public static TableModel resultSetToTableModel(ResultSet rs) {
+    public static TableModel resultSetToTableModel(ResultSet rs) {
         try {
             ResultSetMetaData metaData = rs.getMetaData();
             int numberOfColumns = metaData.getColumnCount();
@@ -65,7 +65,7 @@ public class BukuDB {
             return null;
         }
     }
-} 
+}
 ```
 
 
@@ -114,8 +114,7 @@ public class BukuDB {
 
 a. Mendeklarasikan import kelas-kelas yang diperlukan untuk database, pengolahan input, antarmuka pengguna dengan swing serta menyimpan detail koneksi database. 
 ```
-package pbo_simulasiuts;
-
+package pbo_uts;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.sql.Connection;
@@ -129,78 +128,74 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 import javax.swing.table.DefaultTableModel;
-import pbo_simulasiuts.BukuDB;
+import pbo_uts.MataKuliahDB;
 import java.lang.System.Logger.*;
-
 /**
-*
-* @author win 10
-*/
-public class FrameBuku extends javax.swing.JFrame {
-   Connection conn;
-   PreparedStatement pstmt;
-   ResultSet rs;
+ *
+ * @author win 10
+ */
+public class FrameMataKuliah extends javax.swing.JFrame {
+    Connection conn;
+    PreparedStatement pstmt;
+    ResultSet rs;
     String driver = "org.postgresql.Driver";
-    String koneksi = "jdbc:postgresql://localhost:5432/PBO_SimulasiUTS";
+    String koneksi = "jdbc:postgresql://localhost:5432/PBO_UTS_Akademik";
     String user = "postgres";
     String password = "123456";
     private BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 
-```
-
-b. Membuat method tampil untuk membuat koneksi ke database dengan menggunakan perintah DriverManager.getConnection dan menampilkan informasi tersebut dalam sebuah JTable dengan menggunakan perintah "SELECT * FROM Buku;" 
-```
-  /**
-     * Creates new form FrameBuku
+    /**
+     * Creates new form FrameMataKuliah
      */
-    public FrameBuku() {
+    public FrameMataKuliah() {
         initComponents();
-        tampil();
     }
-    public void tampil() {
+
+
+```
+
+b. Membuat method tampil untuk membuat koneksi ke database dengan menggunakan perintah DriverManager.getConnection dan menampilkan informasi tersebut dalam sebuah JTable dengan menggunakan perintah "SELECT * FROM MataKuliah;" 
+```
+  public void tampil() {
         // TODO code application logi
-        try (Connection conn = DriverManager.getConnection(koneksi, user, password); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery("SELECT * FROM Buku ORDER BY ISBN")) {
+        try (Connection conn = DriverManager.getConnection(koneksi, user, password); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery("SELECT * FROM MataKuliah ORDER BY KodeMK")) {
 
-            // Dapatkan model tabel yang ada
-            DefaultTableModel model = (DefaultTableModel) tblBuku.getModel();
+            DefaultTableModel model = (DefaultTableModel) tblMataKuliah.getModel();
 
-            // Kosongkan data tabel terlebih dahulu
             model.setRowCount(0);
 
-            // Tambahkan data dari ResultSet ke model tabel
             while (rs.next()) {
-                Object[] rowData = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4)}; 
+                Object[] rowData = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4)};
                 model.addRow(rowData);
             }
         } catch (SQLException ex) {
-            // Tangani eksepsi
             System.err.println("Terjadi kesalahan: " + ex.getMessage());
         }
     }
 
 ```
 
-c. Mengisi code pada btnInsert yang berfungsi untuk menambahkan data. Button ini berfungsi untuk menambahkan data pada 'Data Buku'. Sebagai pengguna, kita diminta untuk mengisi informasi mengenai ISBN, judul buku, tahun terbit buku serta penerbit buku. Setelah dimasukkan, kita bisa menekan button Insert. Jika berhasil, akan muncul pesan 'Data Berhasil disimpan'. 
+c. Mengisi code pada btnInsert yang berfungsi untuk menambahkan data. Button ini berfungsi untuk menambahkan data pada 'Data Mata Kuliah'. Sebagai pengguna, kita diminta untuk mengisi informasi mengenai KodeMK, SKS, NamaMK, SemesterAjar. Setelah dimasukkan, kita bisa menekan button Insert. Jika berhasil, akan muncul pesan 'Data Berhasil disimpan'. 
 ```
- private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {                                          
+ private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
         // TODO add your handling code here:
-         String isbn, judul_buku, tahun_terbit, penerbit;
+        String kodeMK, sks, namaMK, semesterAjar;
         try {
             Class.forName(driver);
             conn = DriverManager.getConnection(koneksi, user, password);
             conn.setAutoCommit(false);
-            String sql = "INSERT INTO Buku(isbn, judul_buku, tahun_terbit, penerbit) VALUES(?,?,?,?)";
+            String sql = "INSERT INTO MataKuliah(kodeMK, sks, namaMK, semesterAjar) VALUES(?,?,?,?)";
             pstmt = conn.prepareStatement(sql);
 
-            isbn = tfISBN.getText();
-            judul_buku = tfJudulBuku.getText();
-            tahun_terbit = tfTahunTerbit.getText();
-            penerbit = tfPenerbit.getText();
+            kodeMK = tfKodeMK.getText();
+            sks = tfSKS.getText();
+            namaMK = tfNamaMK.getText();
+            semesterAjar = tfSemesterAjar.getText();
             
-            pstmt.setLong(1, Long.parseLong(isbn));
-            pstmt.setString(2, judul_buku);
-            pstmt.setLong(3, Long.parseLong(tahun_terbit));
-            pstmt.setString(4, penerbit);
+            pstmt.setLong(1, Long.parseLong(kodeMK));
+            pstmt.setLong(2, Long.parseLong(sks));
+            pstmt.setString(3, (namaMK));
+            pstmt.setLong(4, Long.parseLong(semesterAjar));
             pstmt.executeUpdate();
 
             conn.commit();
@@ -214,7 +209,7 @@ c. Mengisi code pada btnInsert yang berfungsi untuk menambahkan data. Button ini
 
         bersih();
         tampil();                    
-    }                                         
+    }                                      
 
 ```
 
