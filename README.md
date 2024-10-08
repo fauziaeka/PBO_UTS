@@ -106,7 +106,7 @@ public class MataKuliahDB {
 
 ![GetImage (18)](https://github.com/user-attachments/assets/c60b4822-e386-4f7c-89e5-a01a06870deb)
 
-![GetImage (12)](https://github.com/user-attachments/assets/6c4fa933-19e2-49ec-b181-444c8ea539bd)
+![image](https://github.com/user-attachments/assets/a0290f7c-ed29-4b36-a1ca-7ba730fe76d3)
 
 7. Pada JFrame Form klik source, maka akan muncul source code dari desain secara otomatis. Isikan bagian tombol-tombol yang di desain agar bisa bekerja 
 
